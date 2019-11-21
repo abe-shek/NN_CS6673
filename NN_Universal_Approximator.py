@@ -2,116 +2,86 @@ import numpy as np
 import pandas as pd
 
 
-def BackPropPart1(x_train, y_train, num_neurons_list, alpha, num_iters, Weights_list=None, bias_list=None):
+def BackProp(x_train, y_train, nn_architecture, alpha, zeta, x0, max_epochs, tolerance, cost_ftn, Weights_list=None,
+             bias_list=None):
     Q = len(x_train)
 
     if not Weights_list:
         Weights_list = []
-        for i in range(len(num_neurons_list) - 1):
-            Weights_list.append(np.random.uniform(-0.5, 0.5, (num_neurons_list[i], \
-                                                              num_neurons_list[i + 1])))
+        for i in range(len(nn_architecture) - 1):
+            Weights_list.append(np.random.uniform(-zeta, zeta, (nn_architecture[i], \
+                                                                nn_architecture[i + 1])))
     if not bias_list:
         bias_list = []
-        for i in range(len(num_neurons_list) - 1):
-            bias_list.append(np.random.uniform(-0.5, 0.5, (1, num_neurons_list[i + 1])))
-
+        for i in range(len(nn_architecture) - 1):
+            bias_list.append(np.random.uniform(-zeta, zeta, (1, nn_architecture[i + 1])))
 
     L = len(Weights_list)
 
-    for i in range(num_iters):
-        x = x_train[i % Q]
-        y = y_train[i % Q]
-        x = np.array(x).reshape((1, len(x)))
-        y = np.array(y).reshape((1, len(y)))
+    for epoch in range(max_epochs):
+        epoch_error = 0
+        for iteration in range(Q):
+            x = x_train[iteration]
+            y = y_train[iteration]
+            x = np.array(x).reshape((1, len(x)))
+            y = np.array(y).reshape((1, len(y)))
 
-        # Calculate activations for all layers
-        # don't need to save n_l since using bipolar sigmoid transfer function
-        a_l_list = [x]
-        for i in range(len(Weights_list)):
-            n_l = np.matmul(a_l_list[-1], Weights_list[i]) + bias_list[i]
-            a_l = transfer_ftn(n_l)
-            a_l_list.append(a_l)
+            # Calculate activations for all layers
+            # don't need to save n_l if we are using bipolar sigmoid transfer function
+            a_l_list = [x]
+            for i in range(len(Weights_list)):
+                n_l = np.matmul(a_l_list[-1], Weights_list[i]) + bias_list[i]
+                a_l = transfer_ftn(n_l, x0)
+                a_l_list.append(a_l)
 
-        # Calculate sensitivities for last layer. Performs element-wise multiplication.
-        s_L = np.multiply((a_l_list[-1] - y), derivative_transfer_ftn(a_l_list[-1]))
+            # calculating the error for this example
+            y_in = a_l_list[-1]  # activation of the last layer
+            example_error = np.matmul(y_in - y, (y_in - y).T)
+            example_error = np.asscalar(example_error)
+            epoch_error = epoch_error + example_error
 
-        # Calculate sensitivites for other layers
-        sensitivities_list = [s_L]
+            # Calculate sensitivities for last layer. Performs element-wise multiplication.
+            # TODO check if this is the only change that needs to be made when using cross-entropy cost function.
+            if cost_ftn == "quadratic":
+                s_L = np.multiply((y_in - y), derivative_transfer_ftn(y_in, x0))
+            elif cost_ftn == "cross-entropy":
+                s_L = y_in - y
 
-        for l in range(L - 1, 0, -1):
-            s_l = np.multiply(np.matmul(sensitivities_list[0], Weights_list[l].T), \
-                              derivative_transfer_ftn(a_l_list[l]))
-            sensitivities_list.insert(0, s_l)
+            # Calculate sensitivites for other layers
+            sensitivities_list = [s_L]
 
-        # Update weights and biases
-        for l in range(L):  # L is length of Weights_list
-            Weights_list[l] = Weights_list[l] - \
-                              (alpha * np.matmul(a_l_list[l].T, sensitivities_list[l]))
+            for l in range(L - 1, 0, -1):
+                s_l = np.multiply(np.matmul(sensitivities_list[0], Weights_list[l].T), \
+                                  derivative_transfer_ftn(a_l_list[l], x0))
+                sensitivities_list.insert(0, s_l)
 
-            bias_list[l] = bias_list[l] - (alpha * sensitivities_list[l])
+            # Update weights and biases
+            for l in range(L):  # L is length of Weights_list
+                Weights_list[l] = Weights_list[l] - \
+                                  (alpha * np.matmul(a_l_list[l].T, sensitivities_list[l]))
 
-    #     print("Sensitivities =", sensitivities_list)
-    #     print("Activations =", a_l_list)
+                bias_list[l] = bias_list[l] - (alpha * sensitivities_list[l])
 
-    # testing if all examples are classified correctly
-    num_correct = 0
-    #     total_training_error = 0
-    total_testing_error = 0
-    for q in range(Q):
-        x = x_train[q]
-        y = y_train[q]
-        x = np.array(x).reshape((1, len(x)))
-        y = np.array(y).reshape((1, len(y)))
+        # epoch error is not normalized (divided by number of examples)
+        if epoch_error < tolerance:
+            break
 
-        # Calculate activations for all layers
-        a_l_list = [x]
-        for i in range(len(Weights_list)):
-            n_l = np.matmul(a_l_list[-1], Weights_list[i]) + bias_list[i]
-            a_l = transfer_ftn(n_l)
-            a_l_list.append(a_l)
-
-        y_in = a_l_list[-1]
-        y_hat = test_transfer_function(y_in)
-
-        if np.array_equal(y_hat, y):
-            num_correct += 1
-
-        #         training_error = np.matmul(y_in - y, (y_in - y).T)
-        #         training_error = np.asscalar(training_error)
-
-        testing_error = np.matmul(y_hat - y, (y_hat - y).T)
-        testing_error = np.asscalar(testing_error)
-
-        #         total_training_error = total_training_error + training_error
-        total_testing_error = total_testing_error + testing_error
-
-    #     training_mse = total_training_error/Q
-    testing_mse = total_testing_error / Q
-
-    print("Number of correct classifications =", num_correct)
-    if num_correct == Q:
-        print("All examples were correctly classifed.")
+    num_training_epochs = epoch + 1
+    if num_training_epochs < max_epochs:
+        convergence = True
     else:
-        print("Not all examples were correctly classified.")
+        convergence = False
 
-    #     print("Weights =", Weights_list)
-    #     print("Biases =", bias_list)
-    #     print("Final Alpha =", alpha)
-    #     print("Number of epochs =", num_iters/Q)
-    # #     print("Training mse =", training_mse)
-    #     print("Testing mse =", testing_mse)
-    #     print()
-
-    return Weights_list, bias_list, testing_mse
+    return Weights_list, bias_list, num_training_epochs, epoch_error, convergence
 
 
-def transfer_ftn(n_l):
-    a_l = np.tanh(n_l / 2)
+def transfer_ftn(n_l, x0):
+    a_l = np.tanh(n_l / (2 * x0))
     return a_l
 
 
-def derivative_transfer_ftn(a_l):  # we only save a_l NOT n_l
-    derivative = ((1 + a_l) * (1 - a_l)) / 2
+def derivative_transfer_ftn(a_l, x0):  # we only save a_l NOT n_l if using bipolar sigmoid transfer function
+    derivative = ((1 + a_l) * (1 - a_l)) / (2 * x0)
     return derivative
 
 
@@ -124,12 +94,16 @@ def test_transfer_ftn(y_in):
     return y_hat
 
 
-def main():
+def Part1_weights_validation():
+    cost_ftn = "quadratic"
     x_train = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
     y_train = [[-1], [1], [1], [-1]]
-    num_neurons_list = [2, 4, 1]
-    num_iters = 4  # For Part 1.
-    lr = 0.2  # For Part 1.
+    nn_architecture = [2, 4, 1]
+    alpha = 0.2  # learning rate
+    zeta = 1  # doesn't really matter since we are passing in weights_list and bias_list
+    x0 = 1
+    max_epochs = 1
+    tolerance = 0.05
 
     # Setting weights and biases for Part 1
     W1 = [[0.197, 0.3191, -0.1448, 0.3594], [0.3099, 0.1904, -0.0347, -0.4861]]
@@ -144,15 +118,98 @@ def main():
     Weights_list = [W1, W2]
     bias_list = [b1, b2]
 
-    Weights_list, bias_list, testing_mse = \
-        BackPropPart1(x_train, y_train, num_neurons_list, lr, \
-                      num_iters, Weights_list, bias_list)
+    Weights_list, bias_list, num_training_epochs, epoch_error, convergence = \
+        BackProp(x_train, y_train, nn_architecture, alpha, zeta, x0, max_epochs, tolerance, cost_ftn, Weights_list,
+                 bias_list)
 
     print("W1=", Weights_list[0], sep="\n")
     print("b1=", bias_list[0], sep="\n")
     print("W2=", Weights_list[1], sep="\n")
     print("b2=", bias_list[1], sep="\n")
+    print()
+
+    np.savez('Part1_results.npz', W1=Weights_list[0], b1=bias_list[0], W2=Weights_list[1], b2=bias_list[1])
+
+    # results can be loaded from the Part1_results.npz file by uncommenting the following
 
 
-test_transfer_function = np.vectorize(test_transfer_ftn)
-main()
+#     data = np.load('Part1_results.npz')
+#     W1 = data['W1']
+#     b1 = data['b1']
+#     W2 = data['W2']
+#     b2 = data['b2']
+
+
+def Part_2a(cost_ftn):
+    x_train = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
+    y_train = [[-1], [1], [1], [-1]]
+    nn_architecture = [2, 4, 1]  # N1 = 4
+    alpha_list = [0.1, 0.2, 0.3]  # learning rate
+    zeta_list = [0.5, 1, 1.5]
+    x0_list = [0.5, 1, 1.5]
+    max_epochs = 500  # this value was chosen empirically after trying several different settings.
+    tolerance = 0.05
+
+    # Try all 3X3X3=27 hyperparameter combinations of alpha, zeta and x0
+    num_convergence = 0
+    for alpha in alpha_list:
+        for zeta in zeta_list:
+            for x0 in x0_list:
+                Weights_list, bias_list, num_training_epochs, epoch_error, convergence = \
+                    BackProp(x_train, y_train, nn_architecture, alpha, zeta, x0, max_epochs, tolerance, cost_ftn)
+                if convergence:
+                    num_convergence += 1
+                print("-------------------------------------------------------------------------------")
+                print(f"Learning rate = {alpha}, Zeta = {zeta}, x0 = {x0}")
+                print(
+                    f"Convergence = {convergence}, Training Epochs = {num_training_epochs}, Squared Error = {epoch_error}")
+    print("-------------------------------------------------------------------------------")
+    print(f"Number of convergent hyperparameter combinations = {num_convergence} (out of 27)")
+
+    # TODO Look for patterns when do we get non-convergent results
+
+
+def Part_2b(cost_ftn):
+    x_train = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
+    y_train = [[-1], [1], [1], [-1]]
+    N1_list = [1, 2, 4, 6, 8, 10]
+    alpha = 0.2  # learning rate
+    zeta = 1
+    x0 = 1
+    max_epochs = 500  # this value was chosen empirically after trying several different settings.
+    tolerance = 0.05
+
+    # Try all 5 hyperparameter combinations of N1
+    num_convergence_list = []
+    for N1 in N1_list:
+        nn_architecture = [2, N1, 1]
+        num_convergence = 0
+        for iters in range(100):
+            Weights_list, bias_list, num_training_epochs, epoch_error, convergence = \
+                BackProp(x_train, y_train, nn_architecture, alpha, zeta, x0, max_epochs, tolerance, cost_ftn)
+            if convergence:
+                num_convergence += 1
+        num_convergence_list.append(num_convergence)
+    print(f"Convergence results for N1 = [1,2,4,6,8,10] (out of 100): {num_convergence_list}")
+
+    # Results mostly converge for N1=4 and above. For N1=2, almost 70% of the times, it converges. For N1=1, it doesn't converge at all.
+    # This is probably because the XOR problem is not linearly separable and we need a higher number of neurons in the hidden layer to approximate the function (see universality theorem).
+
+
+def main():
+    test_transfer_function = np.vectorize(test_transfer_ftn)  # vectorizes the transfer function used at test time
+    print("Part 1 Weights Validation:\n")
+    Part1_weights_validation()
+
+    # Run the 2 sets of experiments with quadratic cost function
+    cost_ftn = "quadratic"
+    Part_2a(cost_ftn)
+    Part_2b(cost_ftn)
+
+    # Run the 2 sets of experiments with bipolar cross-entropy cost function
+    cost_ftn = "cross-entropy"
+    Part_2a(cost_ftn)
+    Part_2b(cost_ftn)
+
+if __name__ == "__main__":
+    main()
