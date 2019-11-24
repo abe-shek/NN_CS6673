@@ -210,6 +210,7 @@ def main():
     cost_ftn = "cross-entropy"
     Part_2a(cost_ftn)
     Part_2b(cost_ftn)
+    
 
 if __name__ == "__main__":
     main()
