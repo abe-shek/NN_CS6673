@@ -7,6 +7,7 @@ class Model:
         self.n_1 = n1
         self.n_2 = n2
 
+        self.reinitialize_weights = True
         self.weights_1 = np.zeros((self.n_0, self.n_1), dtype=int)
         self.weights_2 = np.zeros((self.n_1, self.n_2), dtype=int)
         self.biases_1 = np.zeros((1, self.n_1), dtype=int)
@@ -18,6 +19,8 @@ class Model:
         self.sensitivities_2 = np.zeros((1, self.n_2), dtype=int)
 
         self.hyper_params = HyperParams()
+
+        self.model_info = Info()
 
 
 class HyperParams:
@@ -34,3 +37,10 @@ class HyperParams:
         self.zeta = self.zeta_list[1]
         self.x0 = self.x0_list[1]
         self.cost_fn = 0  # {0: quadratic, 1: cross-entropy}
+
+
+class Info:
+    def __init__(self, total_epochs=0, last_epoch_error=0.0, convergence=False):
+        self.total_epochs_req = total_epochs
+        self.last_epoch_error = last_epoch_error
+        self.converged = convergence

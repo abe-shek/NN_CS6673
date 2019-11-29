@@ -1,0 +1,438 @@
+python3 NN_Universal_Approximator.py
+Part 1 Weights Validation:
+
+W1=
+[[ 0.19347555  0.31675476 -0.144748    0.36374521]
+ [ 0.30686735  0.18845288 -0.03301594 -0.48859019]]
+b1=
+[[-0.32243413  0.26504268  0.27330512 -0.32503622]]
+W2=
+[[ 0.47534885]
+ [-0.27642811]
+ [-0.38395025]
+ [ 0.34801327]]
+b2=
+[[-0.08027444]]
+
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 135, Squared Error = 0.04963294272846039
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 1
+Convergence = False, Training Epochs = 500, Squared Error = 0.10155991101307615
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.049976346293205
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 135, Squared Error = 0.049653925469672136
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 488, Squared Error = 0.04996223148381587
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 0.6257822821939707
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 0.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.001311714179664
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 1
+Convergence = False, Training Epochs = 500, Squared Error = 0.05781249400077838
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 0.486746694202918
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 80, Squared Error = 0.049039875006837805
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 1
+Convergence = True, Training Epochs = 300, Squared Error = 0.049916362656735304
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.095919527014221
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 55, Squared Error = 0.04895219857802399
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 1
+Convergence = False, Training Epochs = 500, Squared Error = 0.05065277895834093
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 0.10290049631119425
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 0.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.000682817044381
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 228, Squared Error = 0.0497658310197492
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 0.056240802571808336
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 73, Squared Error = 0.04834240796411358
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 1
+Convergence = False, Training Epochs = 500, Squared Error = 4.310587420458383
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.149412002753766
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 32, Squared Error = 0.0485626605446971
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 178, Squared Error = 0.04978601609538328
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 0.06876020422379654
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 25, Squared Error = 0.048901903040011505
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 156, Squared Error = 0.04979266489246403
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 332, Squared Error = 0.049808739946226456
+-------------------------------------------------------------------------------
+Number of convergent hyperparameter combinations = 13 (out of 27)
+
+Convergence results for N1 = [1,2,4,6,8,10] (out of 100): [0, 72, 98, 100, 100, 98]
+
+
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 61, Squared Error = 0.047972790493196554
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 1
+Convergence = False, Training Epochs = 500, Squared Error = 4.206126887121414
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.137094316812146
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 56, Squared Error = 0.047940901700874
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 125, Squared Error = 0.04889018815450373
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 3.6260220854442893
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 33, Squared Error = 0.04964328820644875
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 84, Squared Error = 0.04846944505487767
+-------------------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 218, Squared Error = 0.0498436404718165
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 59, Squared Error = 0.045250782255517936
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 1
+Convergence = False, Training Epochs = 500, Squared Error = 4.418194406049622
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.275113459291425
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 21, Squared Error = 0.04557463467580435
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 68, Squared Error = 0.04886288599562194
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.275191766628985
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 15, Squared Error = 0.04806462362339982
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 68, Squared Error = 0.04903090390958228
+-------------------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 131, Squared Error = 0.048266347976647396
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 28, Squared Error = 0.04297549536009809
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 1
+Convergence = False, Training Epochs = 500, Squared Error = 4.638025288751015
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.41819433030763
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 22, Squared Error = 0.04707442069844036
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 39, Squared Error = 0.045038196961245135
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 4.418194612959605
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 8, Squared Error = 0.04644939325831435
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 30, Squared Error = 0.04844375952847351
+-------------------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 61, Squared Error = 0.04820837665381932
+-------------------------------------------------------------------------------
+Number of convergent hyperparameter combinations = 18 (out of 27)
+
+Convergence results for N1 = [1,2,4,6,8,10] (out of 100): [0, 71, 88, 96, 97, 100]
+
+
+
+
+
+
+
+
+
+
+
+
+
+python3 main.py
+W1=
+[[ 0.19347555  0.31675476 -0.144748    0.36374521]
+ [ 0.30686735  0.18845288 -0.03301594 -0.48859019]]
+b1=
+[[-0.32243413  0.26504268  0.27330512 -0.32503622]]
+W2=
+[[ 0.47534885]
+ [-0.27642811]
+ [-0.38395025]
+ [ 0.34801327]]
+b2=
+[[-0.08027444]]
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 135, Squared Error = 0.04998061119316276
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 1
+Convergence = True, Training Epochs = 440, Squared Error = 0.049986482097881285
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 1.5
+Convergence = False, Training Epochs = 500, Squared Error = 0.08917275170406053
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 5.126397564643447e-07
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.002323645768673051
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 1.5
+Convergence = True, Training Epochs = 381, Squared Error = 0.04996144402130909
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 9.985641454964083e-08
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0009686752656374676
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04990053858319165
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 9.946989796695366e-08
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0009668475499341184
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.049913872957649624
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 9.870688595432673e-08
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0009630715566420686
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.0497921761792916
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 9.795237548127335e-08
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0009593220571773001
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04967105151039951
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 9.720623583353052e-08
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0009556654727330242
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04962377055331049
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 9.610748397391836e-08
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0009501230290617004
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04944310569784348
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 9.502658389449148e-08
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0009446379588274208
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.049263708076723506
+-----------------------------------------------------------------------
+Number of convergent hyper parameter combinations = 26 (out of 27)
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+Convergence results for N1 = [1,2,4,6,8,10] (out of 100): [0, 100, 100, 100, 100, 100]
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 59, Squared Error = 0.04844213642037292
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 1
+Convergence = True, Training Epochs = 82, Squared Error = 0.049178218457131544
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 0.5, x0 = 1.5
+Convergence = True, Training Epochs = 99, Squared Error = 0.04922782985572789
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 5.8744829923714995e-08
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0010391020159514297
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04828335550851488
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 5.5102733857102447e-08
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0010062792036621849
+-----------------------------------------------------------------------
+Learning rate = 0.1, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04736800225506509
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 5.174031582810472e-08
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.000978192153806938
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 0.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04728975717711325
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 4.568726278469406e-08
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0009189274143666143
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04552980314954294
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 4.0485870686232194e-08
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0008648384668007495
+-----------------------------------------------------------------------
+Learning rate = 0.2, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04387145541823254
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 3.5995127814738674e-08
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0008177736586421619
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 0.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.043022102574931935
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 3.029667055261194e-08
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0007499449130777069
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.04075287162943973
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 0.5
+Convergence = True, Training Epochs = 1, Squared Error = 2.5657004141278373e-08
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 1
+Convergence = True, Training Epochs = 1, Squared Error = 0.0006899283808317167
+-----------------------------------------------------------------------
+Learning rate = 0.3, Zeta = 1.5, x0 = 1.5
+Convergence = True, Training Epochs = 1, Squared Error = 0.03866331291149808
+-----------------------------------------------------------------------
+Number of convergent hyper parameter combinations = 27 (out of 27)
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+initializing weights1
+initializing weights2
+initializing biases1
+initializing biases2
+Convergence results for N1 = [1,2,4,6,8,10] (out of 100): [0, 100, 100, 100, 100, 100]

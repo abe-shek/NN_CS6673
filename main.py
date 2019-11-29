@@ -2,7 +2,10 @@ import getopt
 import sys
 import numpy as np
 
-from model import Model
+from model import Model, HyperParams
+from save import save_data, export_data
+
+export_to_excel = False
 
 
 def transfer_ftn(n_l, x0):
@@ -17,16 +20,16 @@ def derivative_transfer_ftn(a_l, x0):
 
 
 def init_weights_biases(model):
-    if model.weights_1.all() is 0:
+    if model.reinitialize_weights:
         model.weights_1 = np.random.uniform(-1 * model.hyper_params.zeta,
                                             model.hyper_params.zeta, model.weights_1.shape)
-    if model.weights_2.all() is 0:
+
         model.weights_2 = np.random.uniform(-1 * model.hyper_params.zeta,
-                                            model.hyper_params.zeta, model.weights_1.shape)
-    if model.biases_1.all() is 0:
+                                            model.hyper_params.zeta, model.weights_2.shape)
+
         model.biases_1 = np.random.uniform(1 * model.hyper_params.zeta,
                                            model.hyper_params.zeta, model.biases_1.shape)
-    if model.biases_2.all() is 0:
+
         model.biases_2 = np.random.uniform(1 * model.hyper_params.zeta,
                                            model.hyper_params.zeta, model.biases_2.shape)
 
@@ -64,8 +67,11 @@ def train_nn(x_train, y_train, model):
             # TODO - update
             # check if this is the only change that needs to be made
             # when using cross-entropy cost function.
+
+            # quadratic cost function
             if model.hyper_params.cost_fn == 0:
                 s_L = np.multiply((y_in - y), derivative_transfer_ftn(y_in, model.hyper_params.x0))
+            # cross entropy cost function
             elif model.hyper_params.cost_fn == 1:
                 s_L = y_in - y
 
@@ -96,14 +102,79 @@ def train_nn(x_train, y_train, model):
     else:
         convergence = False
 
+    update_model_info(model, weight_list, bias_list, num_training_epochs, epoch_error, convergence)
+
+    return model
+
+
+def update_model_info(model, weight_list, bias_list, num_training_epochs, epoch_error, convergence):
     model.weights_1 = weight_list[0]
     model.weights_2 = weight_list[1]
     model.biases_1 = bias_list[0]
     model.biases_2 = bias_list[1]
-    return model, num_training_epochs, epoch_error, convergence
+    model.model_info.total_epochs_req = num_training_epochs
+    model.model_info.last_epoch_error = epoch_error
+    model.model_info.converged = convergence
 
 
-def xor_weight_validation(x_train, y_train, model):
+def extract_model_info(model, sheet_name, verbose=True):
+    if verbose:
+        print("--------------------------------------------------------------------------------")
+        print(f"Learning rate = {model.hyper_params.learning_rate} | "
+              f"Zeta = {model.hyper_params.zeta} | "
+              f"x0 = {model.hyper_params.x0}")
+        print(f"Convergence = {model.model_info.converged} | "
+              f"Training Epochs = {model.model_info.total_epochs_req} | "
+              f"Squared Error = {model.model_info.last_epoch_error}")
+        print("--------------------------------------------------------------------------------")
+
+    if export_to_excel:
+        save_data(sheet_name, model)
+
+
+def part_2a(x_train, y_train, model, sheet_name):
+    # TODO
+    # Look for patterns when do we get non-convergent results
+    # Try all 3X3X3=27 hyper parameter combinations of alpha, zeta and x0
+    num_convergence = 0
+    for alpha in model.hyper_params.alpha_list:
+        for zeta in model.hyper_params.zeta_list:
+            for x0 in model.hyper_params.x0_list:
+                model.hyper_params.learning_rate = alpha
+                model.hyper_params.zeta = zeta
+                model.hyper_params.x0 = x0
+                model = train_nn(x_train, y_train, model)
+                if model.model_info.converged:
+                    num_convergence += 1
+                extract_model_info(model, sheet_name, verbose=True)
+    print("-----------------------------------------------------------------------")
+    print(f"Number of convergent hyper parameter combinations = {num_convergence} (out of 27)")
+
+
+def part_2b(x_train, y_train, sheet_name):
+    N1_list = [1, 2, 4, 6, 8, 10]
+    convergence_list = []
+    for i in range(len(N1_list)):
+        model = Model(2, N1_list[i], 1)
+        model.hyper_params.cost_fn = 1
+        num_convergence = 0
+        for iters in range(100):
+            model = train_nn(x_train, y_train, model)
+            if model.model_info.converged:
+                num_convergence += 1
+            extract_model_info(model, sheet_name, verbose=False)
+        convergence_list.append(num_convergence)
+        print(f"Convergence for N1 = %d -> %d" % (N1_list[i], num_convergence))
+
+    print(f"Convergence results for N1 = [1,2,4,6,8,10] (out of 100): {convergence_list}")
+
+    # Results mostly converge for N1=4 and above. For N1=2, almost 70% of the times,
+    # it converges. For N1=1, it doesn't converge at all.
+    # This is probably because the XOR problem is not linearly separable and we need a higher
+    # number of neurons in the hidden layer to approximate the function (see universality theorem).
+
+
+def xor_weight_validation(x_train, y_train, model, sheet_name):
     model.hyper_params.max_epochs = 1
 
     # Setting initial weights and biases for xor weight validation
@@ -112,16 +183,18 @@ def xor_weight_validation(x_train, y_train, model):
     model.weights_2 = np.array([0.4919, -0.2913, -0.3979, 0.3581]).reshape(model.weights_2.shape)
     model.biases_1 = np.array([-0.3378, 0.2771, 0.2859, -0.3329]).reshape(model.biases_1.shape)
     model.biases_2 = np.array([-0.1401]).reshape(model.biases_2.shape)
+    model.reinitialize_weights = False
 
-    model, num_training_epochs, epoch_error, convergence = train_nn(x_train, y_train, model)
+    model = train_nn(x_train, y_train, model)
 
     print("W1=", model.weights_1, sep="\n")
     print("b1=", model.biases_1, sep="\n")
     print("W2=", model.weights_2, sep="\n")
     print("b2=", model.biases_2, sep="\n")
 
-    np.savez('xor_weight_validation.npz', model=model)
+    extract_model_info(model, sheet_name, verbose=False)
 
+    # np.savez('xor_weight_validation.npz', model=model)
     # results can be loaded from the xor_weight_validation.npz file by uncommenting the following
     # data = np.load('Part1_results.npz')
     # model = data['model']
@@ -134,22 +207,41 @@ def main(argv):
         print("Use - python main.py --steps <num_of_training_steps> --alpha <alpha> "
               "--asch <alpha_scheduling_option> --perc <f_perc_value>")
         sys.exit(2)
-    model = Model(2, 4, 1)
-    # model.hyper_params = HyperParams()
+    hyper_params = HyperParams()
     for opt, arg in opts:
         if opt == "--steps":
-            model.hyper_params.training_steps = int(arg)
+            hyper_params.training_steps = int(arg)
         elif opt == "--alpha":
-            model.hyper_params.learning_rate = float(arg)
+            hyper_params.learning_rate = float(arg)
         elif opt == "--asch":
-            model.hyper_params.lr_scheduling_option = int(arg)
+            hyper_params.lr_scheduling_option = int(arg)
         elif opt == "--perc":
-            model.hyper_params.lr_perc_decrease = float(arg)
+            hyper_params.lr_perc_decrease = float(arg)
+
+    # uncomment this if data needs to be stored in excel
+    # global export_to_excel
+    # export_to_excel = True
 
     x_train = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
     y_train = [[-1], [1], [1], [-1]]
 
-    xor_weight_validation(x_train, y_train, model)
+    model = Model(2, 4, 1)
+    model.hyper_params = hyper_params
+    xor_weight_validation(x_train, y_train, model, sheet_name="XOR weights validation")
+
+    model = Model(2, 4, 1)
+    model.hyper_params.cost_fn = 0
+    part_2a(x_train, y_train, model, sheet_name="A-Z-X0 variations (Quad)")
+    part_2b(x_train, y_train, sheet_name="N1 variations (Quad)")
+
+    model = Model(2, 4, 1)
+    model.hyper_params.cost_fn = 1
+    part_2a(x_train, y_train, model, sheet_name="A-Z-X0 variations (CrsEnt)")
+    part_2b(x_train, y_train, sheet_name="N1 variations (CrsEnt)")
+
+    # should be set to true above
+    if export_to_excel:
+        export_data()
 
 
 if __name__ == "__main__":
