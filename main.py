@@ -27,10 +27,10 @@ def init_weights_biases(model):
         model.weights_2 = np.random.uniform(-1 * model.hyper_params.zeta,
                                             model.hyper_params.zeta, model.weights_2.shape)
 
-        model.biases_1 = np.random.uniform(1 * model.hyper_params.zeta,
+        model.biases_1 = np.random.uniform(-1 * model.hyper_params.zeta,
                                            model.hyper_params.zeta, model.biases_1.shape)
 
-        model.biases_2 = np.random.uniform(1 * model.hyper_params.zeta,
+        model.biases_2 = np.random.uniform(-1 * model.hyper_params.zeta,
                                            model.hyper_params.zeta, model.biases_2.shape)
 
     return [model.weights_1, model.weights_2], [model.biases_1, model.biases_2]
@@ -57,23 +57,18 @@ def train_nn(x_train, y_train, model):
                 a_l_list.append(a_l)
 
             # calculating the error for this example
-            y_in = a_l_list[-1]  # activation of the last layer
-            example_error = np.matmul(y_in - y, (y_in - y).T)
+            y_hat = a_l_list[-1]  # activation of the last layer
+            example_error = np.matmul(y_hat - y, (y_hat - y).T)
             example_error = np.asscalar(example_error)
             epoch_error = epoch_error + example_error
 
             # Calculate sensitivities for last layer. Performs element-wise multiplication.
-
-            # TODO - update
-            # check if this is the only change that needs to be made
-            # when using cross-entropy cost function.
-
             # quadratic cost function
             if model.hyper_params.cost_fn == 0:
-                s_L = np.multiply((y_in - y), derivative_transfer_ftn(y_in, model.hyper_params.x0))
+                s_L = np.multiply((y_hat - y), derivative_transfer_ftn(y_hat, model.hyper_params.x0))
             # cross entropy cost function
             elif model.hyper_params.cost_fn == 1:
-                s_L = y_in - y
+                s_L = y_hat - y
 
             # Calculate sensitivites for other layers
             sensitivities_list = [s_L]
@@ -92,7 +87,7 @@ def train_nn(x_train, y_train, model):
                 bias_list[l] = bias_list[l] - \
                                (model.hyper_params.learning_rate * sensitivities_list[l])
 
-        # epoch error is not normalized (divided by number of examples)
+        # epoch error is not normalized (not divided by number of examples)
         if epoch_error < model.hyper_params.tolerance:
             break
 
@@ -151,12 +146,12 @@ def part_2a(x_train, y_train, model, sheet_name):
     print(f"Number of convergent hyper parameter combinations = {num_convergence} (out of 27)")
 
 
-def part_2b(x_train, y_train, sheet_name):
+def part_2b(x_train, y_train, cost_fn, sheet_name):
     N1_list = [1, 2, 4, 6, 8, 10]
     convergence_list = []
     for i in range(len(N1_list)):
         model = Model(2, N1_list[i], 1)
-        model.hyper_params.cost_fn = 1
+        model.hyper_params.cost_fn = cost_fn
         num_convergence = 0
         for iters in range(100):
             model = train_nn(x_train, y_train, model)
@@ -218,7 +213,7 @@ def main(argv):
         elif opt == "--perc":
             hyper_params.lr_perc_decrease = float(arg)
 
-    # uncomment this if data needs to be stored in excel
+    # # uncomment this if data needs to be stored in excel
     # global export_to_excel
     # export_to_excel = True
 
@@ -229,15 +224,17 @@ def main(argv):
     model.hyper_params = hyper_params
     xor_weight_validation(x_train, y_train, model, sheet_name="XOR weights validation")
 
+    # using quadratic cost ftn
     model = Model(2, 4, 1)
     model.hyper_params.cost_fn = 0
     part_2a(x_train, y_train, model, sheet_name="A-Z-X0 variations (Quad)")
-    part_2b(x_train, y_train, sheet_name="N1 variations (Quad)")
+    part_2b(x_train, y_train, cost_fn=0, sheet_name="N1 variations (Quad)")
 
+    # using cross entropy cost ftn
     model = Model(2, 4, 1)
     model.hyper_params.cost_fn = 1
     part_2a(x_train, y_train, model, sheet_name="A-Z-X0 variations (CrsEnt)")
-    part_2b(x_train, y_train, sheet_name="N1 variations (CrsEnt)")
+    part_2b(x_train, y_train, cost_fn=1, sheet_name="N1 variations (CrsEnt)")
 
     # should be set to true above
     if export_to_excel:
