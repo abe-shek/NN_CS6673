@@ -28,7 +28,7 @@ class HyperParams:
         self.alpha_list = [0.1, 0.2, 0.3]
         self.zeta_list = [0.5, 1, 1.5]
         self.x0_list = [0.5, 1, 1.5]
-        self.max_epochs = 500  # empirically chosen
+        self.max_epochs = 700  # empirically chosen
         self.tolerance = 0.05
         self.training_steps = no_training_steps
         self.learning_rate = self.alpha_list[1]
