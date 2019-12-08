@@ -236,6 +236,15 @@ def main(argv):
     part_2a(x_train, y_train, model, sheet_name="A-Z-X0 variations (CrsEnt)")
     part_2b(x_train, y_train, cost_fn=1, sheet_name="N1 variations (CrsEnt)")
 
+    model = Model(2, 4, 1)
+    model.hyper_params.learning_rate = 0.2
+    model.hyper_params.zeta = 1.0
+    model.hyper_params.x0 = 1.0
+    model.hyper_params.cost_fn = 1
+    model.hyper_params.max_epochs = 1
+    model = train_nn(x_train, y_train, model)
+    extract_model_info(model, sheet_name="Final verification")
+
     # should be set to true above
     if export_to_excel:
         export_data()
