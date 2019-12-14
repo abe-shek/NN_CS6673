@@ -7,6 +7,8 @@ class Model:
         self.n_1 = n1
         self.n_2 = n2
 
+        # weights and biases initialized as placeholders.
+        # reinitialized later
         self.reinitialize_weights = True
         self.weights_1 = np.zeros((self.n_0, self.n_1), dtype=int)
         self.weights_2 = np.zeros((self.n_1, self.n_2), dtype=int)
